@@ -7,7 +7,7 @@ InkCat is a proof-of-concept precision robotic arm — not a hobby kit adaptatio
 The long-term goal is ambitious by design: take this arm from a 3D-printed, PLA-bodied proof of concept to a rigid, millimeter-precision manipulator capable of tasks like PCB-grade component placement and even in-house PCB fabrication steps — the kind of precision work usually reserved for industrial SCARA arms costing orders of magnitude more.
 
 <p align="center">
-  <img src="CAD Renders/full_assembly.png" alt="InkCat full assembly render" width="360">
+  <img src="cad_renders/full_assembly.png" alt="InkCat full assembly render" width="360">
 </p>
 
 ---
@@ -124,9 +124,9 @@ Vesper is the single point of contact for every non-actuator sensor and all exte
 ## Mechanical Design & CAD
 
 <p align="center">
-  <img src="CAD Renders/top-view.png" alt="Top view of arm reach" width="300">
+  <img src="cad_renders/top-view.png" alt="Top view of arm reach" width="300">
   &nbsp;&nbsp;
-  <img src="CAD Renders/side-view.png" alt="Side view of column" width="300">
+  <img src="cad_renders/side-view.png" alt="Side view of column" width="300">
 </p>
 
 ### Kinematic Configuration
@@ -148,28 +148,28 @@ The resulting workspace is cylindrical: vertical reach is set by the Z-axis stro
 <table>
   <tr>
     <td width="260" align="center">
-      <img src="CAD Renders/base_closeup.png" width="240"><br>
+      <img src="cad_renders/base_closeup.png" width="240"><br>
       <sub><b>Base & Z-column</b></sub>
     </td>
     <td>The base is an enclosed housing with a removable cover, internally compartmentalized for the PCB, motor drivers, wiring harnesses, and power electronics. Keeping all electronics inside the base lowers the overall center of gravity and keeps the arm's kinematic assembly above it undisturbed during maintenance. The vertical column integrates the linear guide rail, lead screw, drive motor enclosure, and sliding carriage into one rigid structural member — it has to carry axial load and resist the bending moment of the fully extended arm simultaneously, which drove the choice of a ribbed, large-cross-section profile.</td>
   </tr>
   <tr>
     <td width="260" align="center">
-      <img src="CAD Renders/arms_closeup.png" width="240"><br>
+      <img src="cad_renders/arms_closeup.png" width="240"><br>
       <sub><b>Upper arm & fore-arm links</b></sub>
     </td>
     <td>Both arm links use a hollow, ribbed shell geometry with rounded edges and a deliberately large bending depth. This is a weight-optimization strategy — removing material from the neutral bending axis while retaining depth preserves stiffness-to-weight ratio, which directly reduces the rotational inertia the shoulder and elbow BLDC motors have to overcome during acceleration.</td>
   </tr>
   <tr>
     <td width="260" align="center">
-      <img src="CAD Renders/gripper_closeup.png" width="240"><br>
+      <img src="cad_renders/gripper_closeup.png" width="240"><br>
       <sub><b>Wrist & gripper</b></sub>
     </td>
     <td>The wrist is a compact rotational stage that orients the gripper before grasp. The end effector is a parallel-jaw gripper actuated through a rack-and-pinion mechanism, chosen for symmetric jaw travel, positive mechanical engagement, and repeatable grip force — suited to PCB handling, small mechanical parts, and lab-sample manipulation.</td>
   </tr>
   <tr>
     <td width="260" align="center">
-      <img src="CAD Renders/actuator_assembly.png" width="240"><br>
+      <img src="cad_renders/actuator_assembly.png" width="240"><br>
       <sub><b>Z-axis actuator detail</b></sub>
     </td>
     <td>Close-up of the lead-screw carriage and linear guide interface — the load path the entire arm hangs off of. Precision here directly bounds the vertical repeatability of the whole manipulator.</td>
@@ -206,7 +206,7 @@ PLA is used for the initial prototype because of its dimensional stability, ease
 ### Vesper ONE — Main Supervisory Controller
 
 <p align="center">
-  <img src="PCB + Schematics/VESPER ONE main Controller/cad-render.png" alt="Vesper ONE CAD render" width="420">
+  <img src="pcb_and_schematics/VESPER-ONE_main_Controller/cad-render.png" alt="Vesper ONE CAD render" width="420">
 </p>
 
 Vesper ONE is the single supervisory board in the system — every non-actuator sensor terminates here, and no other board carries a direct external connection. It's built around an **STM32H743ZIT6**, whose Arm Cortex-M7 core runs up to 480 MHz with a double-precision FPU and hardware Chrom-ART acceleration, backed by up to 2 MB flash / 1 MB SRAM — enough headroom to run sensor fusion, inverse kinematics, and trajectory generation without offloading that work to the actuator nodes.
@@ -216,7 +216,7 @@ Alongside the H743, Vesper integrates a **Trinamic TMC5160** stepper driver for 
 External communication runs through an **ADIN1200** Ethernet PHY (vision data) and a **MAX33012EASA+** CAN-FD transceiver (actuator/encoder/IMU traffic), plus USB Type-C, SPI, UART, and I²C.
 
 <p align="center">
-  <img src="PCB + Schematics/VESPER ONE main Controller/Schematics_vesper.png" alt="Vesper ONE schematic" width="600">
+  <img src="pcb_and_schematics/VESPER-ONE_main_Controller/Schematics_vesper.png" alt="Vesper ONE schematic" width="600">
 </p>
 
 <p align="center"><sub>Vesper ONE schematic — microcontroller configuration, connectivity interfaces (Ethernet/CAN-FD/USB-C), power input & filtering, and the dual-TMC5160 stepper driver train.</sub></p>
@@ -224,9 +224,9 @@ External communication runs through an **ADIN1200** Ethernet PHY (vision data) a
 ### FluxCruiser — Per-Joint Actuator Node
 
 <p align="center">
-  <img src="PCB + Schematics/FluxCruiser Actuator board/cad-render.jpg" alt="FluxCruiser CAD render" width="280">
+  <img src="pcb_and_schematics/FluxCruiser_Actuator_board/cad-render.jpg" alt="FluxCruiser CAD render" width="280">
   &nbsp;&nbsp;
-  <img src="PCB + Schematics/FluxCruiser Actuator board/front-view.jpg" alt="FluxCruiser front view" width="280">
+  <img src="pcb_and_schematics/FluxCruiser_Actuator_board/front-view.jpg" alt="FluxCruiser front view" width="280">
 </p>
 
 FluxCruiser is the distributed motor-control PCB deployed at each of the arm's three kinematic joints (shoulder, elbow, wrist), offloading Field-Oriented Control math to a dedicated gate driver for deterministic, low-latency motion control local to the joint.
@@ -256,7 +256,7 @@ Vesper compares the expected carriage height (computed from lead-screw pitch and
 ## Control Loop — MATLAB/Simulink Architecture
 
 <p align="center">
-  <img src="Control loop simulink models/Robotic arm control system with state estimation/Control loop Simulink model ( 2link system).jpg" alt="Simulink control loop model" width="600">
+  <img src="control_loop_simulink_models/Robotic arm control system with state estimation/Control loop Simulink model ( 2link system).jpg" alt="Simulink control loop model" width="600">
 </p>
 
 The MATLAB/Simulink model implements a complete closed-loop control architecture, validated before any hardware commitment:
@@ -269,23 +269,23 @@ The MATLAB/Simulink model implements a complete closed-loop control architecture
 6. **Forward kinematics & Jacobian** — estimated joint states are run back through forward kinematics for real-time end-effector position/velocity monitoring and validation.
 
 <p align="center">
-  <img src="Control loop simulink models/Robotic arm control system with state estimation/joint position and torques.jpg" alt="Joint trajectory feedback response" width="280">
+  <img src="control_loop_simulink_models/Robotic arm control system with state estimation/joint position and torques.jpg" alt="Joint trajectory feedback response" width="280">
   &nbsp;&nbsp;
-  <img src="Control loop simulink models/Robotic arm control system with state estimation/End effector position and velocity.jpg" alt="End-effector position and velocity" width="280">
+  <img src="control_loop_simulink_models/Robotic arm control system with state estimation/End effector position and velocity.jpg" alt="End-effector position and velocity" width="280">
 </p>
 
 <p align="center"><sub>Left: joint trajectory feedback response. Right: end-effector position/velocity profile from the closed-loop simulation.</sub></p>
 
 This architecture — trajectory planning, state estimation, feedback control, dynamic compensation, and kinematic analysis unified into one closed loop — closely mirrors the control strategy used in real industrial manipulators, and is built as a scalable foundation for the eventual embedded (STM32) implementation, where the plan is to run **ADRC (Active Disturbance Rejection Control)** as the primary control law.
 
-A separate Hardware-in-the-Loop validation of the Field-Oriented Control stage is documented in [`Control loop simulink models/HIL validation of Field Oriented Control on Simulink_azharjawed (1).pdf`](Control%20loop%20simulink%20models/HIL%20validation%20of%20Field%20Oriented%20Control%20on%20Simulink_azharjawed%20%281%29.pdf).
+A separate Hardware-in-the-Loop validation of the Field-Oriented Control stage is documented in [`control_loop_simulink_models/HIL validation of Field Oriented Control on Simulink_azharjawed (1).pdf`](control_loop_simulink_models/HIL%20validation%20of%20Field%20Oriented%20Control%20on%20Simulink_azharjawed%20%281%29.pdf).
 
 ---
 
 ## Software & Perception Stack
 
 <p align="center">
-  <img src="CAD Renders/pcb_mounted_wireframe.png" alt="PCB and electronics integration wireframe" width="500">
+  <img src="cad_renders/pcb_mounted_wireframe.png" alt="PCB and electronics integration wireframe" width="500">
 </p>
 
 The software architecture is intentionally modular — perception, motion planning, and control live in independent nodes so any one layer (e.g. a vision algorithm) can be swapped without touching the others.
@@ -315,40 +315,40 @@ Local low-dropout regulators derive 3.3V from the 12V rail for the STM32H7/STM32
 InkCat-SMOC/
 ├── README.md
 │
-├── CAD Files (opens without Solidworks)/
+├── cad_files/
 │   ├── final_scara_prototype.STL
 │   ├── final_scara_prototype_1.glb
 │   ├── SolidWorks_Package (2026 version compatible only)/   # Full native .SLDPRT/.SLDASM + STEP source files
 │   └── readme.txt
 │
-├── CAD Renders/
+├── cad_renders/
 │   ├── full_assembly.png
 │   ├── top-view.png / side-view.png / corner-top-view.png
 │   ├── base_closeup.png / arms_closeup.png / gripper_closeup.png / actuator_assembly.png
 │   ├── first-link_closeup.png / esc_arm_wireframe.jpg
 │   └── pcb_mounted_wireframe.png
 │
-├── PCB + Schematics/
-│   ├── VESPER ONE main Controller/
+├── pcb_and_schematics/
+│   ├── VESPER-ONE_main_Controller/
 │   │   ├── Schematics_vesper.png
 │   │   ├── Board_connections.png
 │   │   ├── STM32H743 pin Config for Vesper.jpg
 │   │   └── front-view.png / back-view.png / side-view.png / cad-render.png
-│   └── FluxCruiser Actuator board/
+│   └── FluxCruiser_Actuator_board/
 │       └── front-view.jpg / back-view.jpg / side-view.jpg / cad-render.jpg
 │
-├── Control loop simulink models/
+├── control_loop_simulink_models/
 │   ├── HIL validation of Field Oriented Control on Simulink_azharjawed (1).pdf
 │   └── Robotic arm control system with state estimation/
 │       ├── Control loop Simulink model ( 2link system).jpg
 │       ├── joint position and torques.jpg
 │       └── End effector position and velocity.jpg
 │
-├── Explainer video/
+├── explainer_video/
 │   ├── Part 1_ Intro.mp4
 │   └── Part 2_ A Deep Dive.mp4
 │
-├── Refrences and Bibliography/
+├── references_and_bibliography/
 │   ├── InkCat-SMOC_POC.pdf                 # Full proof-of-concept document
 │   └── research_papers_refered.txt
 │
@@ -364,12 +364,12 @@ InkCat-SMOC/
 
 ## How to Replicate / Build On This Project
 
-1. **Review the full POC document** — [`Refrences and Bibliography/InkCat-SMOC_POC.pdf`](Refrences%20and%20Bibliography/InkCat-SMOC_POC.pdf) is the authoritative design document this README is based on; read it first for the complete reasoning behind every architectural decision.
+1. **Review the full POC document** — [`references_and_bibliography/InkCat-SMOC_POC.pdf`](references_and_bibliography/InkCat-SMOC_POC.pdf) is the authoritative design document this README is based on; read it first for the complete reasoning behind every architectural decision.
 2. **Open the CAD.** If you have SolidWorks 2026, open `final_scara_prototype.SLDASM` inside the `SolidWorks_Package` folder for the full native, editable assembly. Otherwise, use `final_scara_prototype.STL` or `.glb` with any standard viewer (Windows 3D Viewer, Blender, an online GLB viewer, etc.) for a non-editable but fully visual reference.
-3. **Study the schematics.** Both PCB schematics (Vesper ONE, FluxCruiser) are provided as high-resolution exports under `PCB + Schematics/`. These are proof-of-concept schematics — not yet fabricated Gerbers — so treat them as a reference design rather than a drop-in fab-ready package.
+3. **Study the schematics.** Both PCB schematics (Vesper ONE, FluxCruiser) are provided as high-resolution exports under `pcb_and_schematics/`. These are proof-of-concept schematics — not yet fabricated Gerbers — so treat them as a reference design rather than a drop-in fab-ready package.
 4. **Reproduce the control loop.** The MATLAB/Simulink model architecture is described in full under [Control Loop](#control-loop--matlabsimulink-architecture) — a from-scratch rebuild following that structure (Inverse Kinematics → Quintic Trajectory Planner → Simscape Multibody → EKF → PD + Computed Torque Control → Forward Kinematics) will reproduce the validated closed-loop behavior shown in the referenced Simulink screenshots.
 5. **Source the components.** The full bill of materials and required eval-kits are listed in [Tech Stack](#tech-stack) — key long-lead items are the TMC9660 and TMC5160 motor-control ICs and the ADI sensor/communication parts (ADIS16470-class IMU, ADIN1200 PHY, MAX33012E CAN-FD transceiver), which the original team notes can be hard to source in some regions and are worth ordering early.
-6. **Watch the explainer videos** — `Explainer video/Part 1_ Intro.mp4` and `Part 2_ A Deep Dive.mp4` walk through the system in more conversational detail than the written docs.
+6. **Watch the explainer videos** — `explainer_video/Part 1_ Intro.mp4` and `Part 2_ A Deep Dive.mp4` walk through the system in more conversational detail than the written docs.
 7. **Track firmware progress** in [`firmware/`](firmware/) — this is where STM32 code, ROS 2 nodes, and vision scripts will land as they're completed and tested. Nothing there yet is guaranteed to run.
 
 ---
@@ -407,7 +407,7 @@ Carried over directly from the project's own POC self-assessment, since these ar
 
 ## Reference Material
 
-Primary datasheets and research referenced during design (full list in [`Refrences and Bibliography/research_papers_refered.txt`](Refrences%20and%20Bibliography/research_papers_refered.txt)):
+Primary datasheets and research referenced during design (full list in [`references_and_bibliography/research_papers_refered.txt`](references_and_bibliography/research_papers_refered.txt)):
 
 - [Trinamic TMC5160 datasheet](https://www.analog.com/en/products/tmc5160.html) — Z-axis stepper driver
 - [Trinamic TMC9660 datasheet](https://www.analog.com/en/products/tmc9660.html) — per-joint FOC driver
@@ -425,6 +425,6 @@ A compiled QR-code link to the full research paper set referenced during ideatio
 
 ## Credits
 
-Proposed and developed by **Azhar Jawed, Anurag Jha, Ansh Wadhera, Vighnesh R Pai, and Suyash Raiswal** — B.Tech undergraduates, Delhi Technological University.
+Proposed and developed by **Anurag Kumar Jha, Azhar Jawed, Ansh Wadhera, Vighnesh R Pai, and Suyash Raiswal** — B.Tech undergraduates, Delhi Technological University.
 
 Submitted as part of **Anveshan 2026** under the project name *InkCat — Resynced*, sub-titled *SMOC: A Modular, Self-Calibrating SCARA Robot Design*.
