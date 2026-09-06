@@ -93,26 +93,26 @@ This repository currently documents a **validated proof of concept**: the CAD ki
 
 ```
                          ┌─────────────────────────────────────────┐
-                         │      VESPER ONE (STM32H743ZIT6)          │
-   Vision (Ethernet/USB) │      Supervisory Controller               │
-   ─────────────────────►│  • Sensor fusion (EKF/EWMA)              │
-                         │  • Self-calibration engine                │
-   PMW3389 (base offset) │  • Inverse kinematics                     │
-   ─────────────────────►│  • Quintic trajectory planning            │
-                         │  • ADRC / high-level closed-loop control  │
-   MSC500 (Z-height)     │  • TMC5160 — Z-axis stepper drive          │
-   ─────────────────────►│                                           │
-                         └───────────────┬───────────────────────────┘
+                         │      VESPER ONE (STM32H743ZIT6)         │
+   Vision (Ethernet/USB) │      Supervisory Controller             │
+   ─────────────────────►│  • Sensor fusion (EKF/EWMA)             │
+                         │  • Self-calibration engine              │
+   PMW3389 (base offset) │  • Inverse kinematics                   │
+   ─────────────────────►│  • Quintic trajectory planning          │
+                         │  • ADRC / high-level closed-loop control│
+   MSC500 (Z-height)     │  • TMC5160 — Z-axis stepper drive       │
+   ─────────────────────►│                                         │
+                         └───────────────┬─────────────────────────┘
                                          │ CAN-FD
                 ┌────────────────────────┼────────────────────────┐
                 ▼                        ▼                        ▼
-    ┌───────────────────┐    ┌───────────────────┐    ┌───────────────────┐
-    │  FluxCruiser #1    │    │  FluxCruiser #2    │    │  FluxCruiser #3    │
-    │  (Shoulder)        │    │  (Elbow)           │    │  (Wrist)           │
+    ┌─────────────────────┐    ┌────────────────────┐    ┌────────────────────┐
+    │  FluxCruiser #1     │    │  FluxCruiser #2    │    │  FluxCruiser #3    │
+    │  (Shoulder)         │    │  (Elbow)           │    │  (Wrist)           │
     │  STM32G431 + TMC9660│    │ STM32G431 + TMC9660│    │ STM32G431 + TMC9660│
     │  + IMU + Encoder    │    │ + IMU + Encoder    │    │ + IMU + Encoder    │
-    └─────────┬──────────┘    └─────────┬──────────┘    └─────────┬──────────┘
-              ▼                         ▼                         ▼
+    └─────────┬───────────┘    └─────────┬──────────┘    └─────────┬──────────┘
+              ▼                          ▼                         ▼
          BLDC Motor                BLDC Motor              BLDC Motor / Gripper
          (Shoulder)                 (Elbow)                  (Wrist + Gripper)
 ```
