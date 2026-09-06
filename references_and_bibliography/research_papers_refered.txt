@@ -1,0 +1,10 @@
+https://www.analog.com/en/products/tmc5160.html
+https://www.analog.com/en/products/tmc9660.html
+https://www.analog.com/en/products/adis16470.html
+https://www.analog.com/en/products/adin1200.html
+https://www.analog.com/en/products/max33012e.html
+https://www.researchgate.net/publication/287159662_Active_Disturbance_Rejection_Control_of_a_SCARA_Robot_Arm
+https://www.st.com/en/microcontrollers-microprocessors/stm32h743-753.html
+https://www.researchgate.net/publication/313547864_Two_Error_Models_for_Calibrating_SCARA_Robots_based_on_the_MDH_Model
+https://www.sciencedirect.com/science/article/pii/S0007850607619222	
+https://doi.org/10.1016/j.rcim.2012.06.001

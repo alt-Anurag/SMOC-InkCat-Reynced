@@ -1,0 +1,1 @@
+use any .stl/ .glb viewer to open cad or if solidworks (2026 compatible only) available then use .sldasm/ .sldprt files to view the model.
