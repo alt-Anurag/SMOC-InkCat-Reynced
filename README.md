@@ -56,12 +56,18 @@ This repository currently documents a **validated proof of concept**: the CAD ki
 
 ## Why This Project Is Different
 
-- **Distributed embedded architecture, not a single MCU.** Rather than one microcontroller trying to run kinematics, sensor fusion, and motor control simultaneously, InkCat splits the workload: a supervisory STM32H743 (Vesper) handles the computationally heavy state estimation and trajectory planning, while three independent STM32G431 actuator nodes (FluxCruiser) run deterministic, low-latency Field-Oriented Control locally — a pattern borrowed from how modern industrial robot controllers are actually built.
-- **Continuous self-calibration, not open-loop trust.** Four independent sensing sources (joint encoders, an optical base-offset sensor, a magnetic Z-height encoder, and per-node IMUs) are fused in a recursive state estimator so the robot's internal model of itself stays accurate under drift, wheel slip, or mechanical offset — without a manual recalibration step between runs.
-- **Simulation-first development.** The full control loop was validated in MATLAB/Simulink against a Simscape Multibody model — including Computed Torque Control derived from the Euler-Lagrange formulation — before any hardware commitment. A parallel Unity3D + ROS2 digital twin lets the vision and perception pipeline be tested against simulated sensor noise and lighting variation before ever touching a real camera.
-- **Two custom PCB families, designed for the specific problem.** Vesper ONE centralizes every non-actuator sensor and external communication interface (Ethernet, USB-C, CAN-FD) so no other board in the system needs an external connection. FluxCruiser offloads FOC math to a dedicated Trinamic TMC9660 gate driver per joint, keeping actuator nodes lightweight and deterministic.
-- **A deliberately staged material strategy.** The mechanical design is built so the same CAD platform can go from an FDM-printed PLA prototype (for validating kinematics and control) to a CNC-machined aluminum/steel deployment unit — without a structural redesign in between.
-- **An explicit path to industrial-grade precision.** The stated end goal — millimeter-precision pick-and-place, PCB-grade component handling, and eventually PCB manufacturing steps — is treated as a real design constraint from day one, not an afterthought bolted on once the arm can already move.
+* **Distributed embedded architecture.** Instead of putting the entire control stack on a single MCU, InkCat divides the workload between a supervisory STM32H743 (Vesper) and three STM32G431 actuator nodes (FluxCruiser). Vesper handles tasks such as state estimation and trajectory planning, while each actuator board runs the motor control locally for fast and predictable response.
+
+* **Continuous self-calibration.** A key part of InkCat is keeping the robot's internal model accurate while it is operating. Joint encoders, a base-offset optical sensor, a magnetic Z-height encoder, and IMUs on the actuator nodes provide multiple measurements that can be combined through a recursive state estimator. This is intended to account for things such as mechanical offsets and drift without requiring the arm to be manually recalibrated between runs.
+
+* **Simulation-first development.** The control system was developed and tested in MATLAB/Simulink using a Simscape Multibody model of the arm. This includes the Computed Torque Controller derived from the Euler-Lagrange formulation. In parallel, a Unity3D + ROS2 digital twin is used to test the vision and perception pipeline under different sensor and lighting conditions before moving to the physical setup.
+
+* **Custom controller and actuator PCB architecture.** Vesper is the central controller board and handles the non-actuator sensors and external communication interfaces, including Ethernet, USB-C, and CAN-FD. The FluxCruiser boards handle the individual joints, with a dedicated Trinamic TMC9660 gate driver used for the motor-control stage.
+
+* **Staged mechanical development.** The mechanical design is intended to work across different stages of development. The same CAD platform can first be used for an FDM-printed PLA prototype to validate the kinematics and control system, and later transition to a CNC-machined aluminum/steel version without requiring a complete structural redesign.
+
+* **Designed around precision from the start.** InkCat is being developed with millimeter-level pick-and-place as a target, with applications such as PCB component handling and, eventually, automated PCB manufacturing processes in mind. Precision is therefore considered during the mechanical, sensing, and control design rather than being added after the basic arm is already functional.
+
 
 ---
 
@@ -74,7 +80,7 @@ This repository currently documents a **validated proof of concept**: the CAD ki
 | Actuator Node MCU (×3) | STM32G431 — "FluxCruiser" |
 | Motor Driver / FOC Engine | Trinamic TMC9660 (×3, one per joint) |
 | Z-Axis Stepper Driver | Trinamic TMC5160 (on Vesper) |
-| Joint Encoders | SIKO MSC500 absolute magnetic encoder (×3) |
+| Joint Encoders | SIKO AS5600 absolute magnetic encoder (×3) |
 | Base Offset Sensor | PixArt PMW3389 high-precision optical motion sensor |
 | IMUs | ADI ADIS16470-class / ICM-45686 6-axis (per actuator node) |
 | Communication | CAN-FD (MAX33012EASA+), Ethernet (ADIN1200 PHY), USB Type-C, SPI, UART, I²C |
@@ -82,7 +88,7 @@ This repository currently documents a **validated proof of concept**: the CAD ki
 | Control Law | Computed Torque Control (Euler-Lagrange), PD feedback, quintic polynomial trajectory planning, ADRC (planned for embedded target) |
 | Simulation / Digital Twin | Unity3D + ROS 2 |
 | Computer Vision | OpenCV (HSV segmentation, monocular projection) |
-| PCB Design | KiCad / Altium Designer 2025 |
+| PCB Design | Altium Designer 2025 |
 | Motor / Magnetics Design | Ansys Maxwell |
 | Prototype Material | PLA (FDM) / Carbon-Fiber-Reinforced PLA |
 | Deployment Material | Aluminium 6061-T6 (links, column), steel (base, joint shafts, fasteners) |
