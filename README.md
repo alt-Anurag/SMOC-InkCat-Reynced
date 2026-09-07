@@ -56,17 +56,17 @@ This repository currently documents a **validated proof of concept**: the CAD ki
 
 ## Why This Project Is Different
 
-* **Distributed embedded architecture.** Instead of putting the entire control stack on a single MCU, InkCat divides the workload between a supervisory STM32H743 (Vesper) and three STM32G431 actuator nodes (FluxCruiser). Vesper handles tasks such as state estimation and trajectory planning, while each actuator board runs the motor control locally for fast and predictable response.
+* **Distributed embedded architecture:** Instead of putting the entire control stack on a single MCU, InkCat divides the workload between a supervisory STM32H743 (Vesper) and three STM32G431 actuator nodes (FluxCruiser). Vesper handles tasks such as state estimation and trajectory planning, while each actuator board runs the motor control locally for fast and predictable response.
 
-* **Continuous self-calibration.** A key part of InkCat is keeping the robot's internal model accurate while it is operating. Joint encoders, a base-offset optical sensor, a magnetic Z-height encoder, and IMUs on the actuator nodes provide multiple measurements that can be combined through a recursive state estimator. This is intended to account for things such as mechanical offsets and drift without requiring the arm to be manually recalibrated between runs.
+* **Continuous self-calibration:** A key part of InkCat is keeping the robot's internal model accurate while it is operating. Joint encoders, a base-offset optical sensor, a magnetic Z-height encoder, and IMUs on the actuator nodes provide multiple measurements that can be combined through a recursive state estimator. This is intended to account for things such as mechanical offsets and drift without requiring the arm to be manually recalibrated between runs.
 
-* **Simulation-first development.** The control system was developed and tested in MATLAB/Simulink using a Simscape Multibody model of the arm. This includes the Computed Torque Controller derived from the Euler-Lagrange formulation. In parallel, a Unity3D + ROS2 digital twin is used to test the vision and perception pipeline under different sensor and lighting conditions before moving to the physical setup.
+* **Simulation-first development:** The control system was developed and tested in MATLAB/Simulink using a Simscape Multibody model of the arm. This includes the Computed Torque Controller derived from the Euler-Lagrange formulation. In parallel, a Unity3D + ROS2 digital twin is used to test the vision and perception pipeline under different sensor and lighting conditions before moving to the physical setup.
 
 * **Custom controller and actuator PCB architecture.** Vesper is the central controller board and handles the non-actuator sensors and external communication interfaces, including Ethernet, USB-C, and CAN-FD. The FluxCruiser boards handle the individual joints, with a dedicated Trinamic TMC9660 gate driver used for the motor-control stage.
 
-* **Staged mechanical development.** The mechanical design is intended to work across different stages of development. The same CAD platform can first be used for an FDM-printed PLA prototype to validate the kinematics and control system, and later transition to a CNC-machined aluminum/steel version without requiring a complete structural redesign.
+* **Staged mechanical development:** The mechanical design is intended to work across different stages of development. The same CAD platform can first be used for an FDM-printed PLA prototype to validate the kinematics and control system, and later transition to a CNC-machined aluminum/steel version without requiring a complete structural redesign.
 
-* **Designed around precision from the start.** InkCat is being developed with millimeter-level pick-and-place as a target, with applications such as PCB component handling and, eventually, automated PCB manufacturing processes in mind. Precision is therefore considered during the mechanical, sensing, and control design rather than being added after the basic arm is already functional.
+* **Designed around precision from the start:** InkCat is being developed with millimeter-level pick-and-place as a target, with applications such as PCB component handling and, eventually, automated PCB manufacturing processes in mind. Precision is therefore considered during the mechanical, sensing, and control design rather than being added after the basic arm is already functional.
 
 
 ---
