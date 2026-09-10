@@ -1,6 +1,6 @@
 # InkCat — SMOC: A Modular, Self-Calibrating SCARA Robot
 
-**A 5-DOF desktop SCARA manipulator built around a distributed embedded control network, continuous self-calibrating sensor fusion, and a simulation-first (Unity3D/ROS2) development pipeline.**
+**A 5-DOF Self-Calibrating Modular SCARA bot built around a distributed embedded control network, continuous self-calibrating sensor fusion, and a simulation-first (Unity3D/ROS2) development pipeline.**
 
 InkCat is a proof-of-concept precision robotic arm — not a hobby kit adaptation. Every layer of the stack was designed from scratch: the SolidWorks CAD kinematic chain, two custom PCB families (a supervisory controller and a distributed per-joint actuator board), a MATLAB/Simulink closed-loop control architecture validated against a Simscape Multibody model, and a Unity3D + ROS2 + OpenCV vision pipeline for perception-guided pick-and-place.
 
