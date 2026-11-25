@@ -78,7 +78,7 @@ This repository currently documents a **validated proof of concept**: the CAD ki
 | Mechanical CAD | SolidWorks 2026 |
 | Supervisory Controller | STM32H743ZIT6 (Arm Cortex-M7, up to 480 MHz) — "Vesper ONE" |
 | Actuator Node MCU (×3) | STM32G431 — "FluxCruiser" |
-| Motor Driver / FOC Engine | Trinamic TMC9660 (×3, one per joint) |
+| Motor Driver and FOC Engine | Trinamic TMC9660 (×3, one per joint) |
 | Z-Axis Stepper Driver | Trinamic TMC5160 (on Vesper) |
 | Joint Encoders | SIKO AS5600 absolute magnetic encoder (×3) |
 | Base Offset Sensor | PixArt PMW3389 high-precision optical motion sensor |
